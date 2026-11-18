@@ -15,12 +15,13 @@
   $("#waHero").href = $("#waFloat").href = wa(C.mensajeWhatsapp);
   $("#dir").textContent = $("#footDir").textContent = C.direccion;
   $("#comoLlegar").href = C.mapsLink; $("#llamar").href = "tel:" + C.telefono.replace(/[^\d+]/g, ""); $("#mapa").src = C.mapsEmbed;
+  $("#footTel").textContent = C.telefono; $("#footTel").href = "tel:" + C.telefono.replace(/[^\d+]/g, ""); $("#tkIc").innerHTML = svgIcon("check", 20); $("#trIc1").innerHTML = svgIcon("clock", 22); $("#trIc2").innerHTML = svgIcon("shield", 22); $("#trIc3").innerHTML = svgIcon("cal", 22);
   $("#anio").textContent = new Date().getFullYear(); $("#faqCancel").textContent = CONFIG.pago.politicaCancelacion;
   $("#horarios").innerHTML = [1, 2, 3, 4, 5, 6, 0].map(d => { const h = CONFIG.horarios[d]; return `<li><span>${DIAS_L[d][0].toUpperCase() + DIAS_L[d].slice(1)}</span><span>${h.length ? h.map(([a, b]) => `${a} - ${b}`).join(" / ") : "Cerrado"}</span></li>`; }).join("");
 
   // ---- wizard ----
   const NOMBRES = ["Prestación", "Día y hora", "Tus datos", "Pago"];
-  const head = n => `<ol class="steps">${NOMBRES.map((t, i) => `<li class="${i + 1 === n ? "on" : i + 1 < n ? "done" : ""}">${i + 1}. ${t}</li>`).join("")}</ol>`;
+  const head = n => `<ol class="steps">${NOMBRES.map((t, i) => `<li class="${i + 1 === n ? "on" : i + 1 < n ? "done" : ""}"><b>${i + 1 < n ? svgIcon("check", 14) : i + 1}</b><span>${t}</span></li>`).join("")}</ol>`;
   const go = n => { S.paso = n; render(); wiz.scrollIntoView({ behavior: "smooth", block: "start" }); };
   function render() { [null, r1, r2, r3, r4, r5][S.paso](); }
 
@@ -28,7 +29,7 @@
     const norm = t => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     const todas = Store.especialidades().filter(e => e.activo);
     const cards = () => todas.filter(e => (S.tipo === "todas" || e.tipo === S.tipo) && norm(e.nombre).includes(norm(S.q || ""))).map(e =>
-      `<button class="card ${S.esp && S.esp.id === e.id ? "sel" : ""}" data-id="${e.id}"><span class="ic">${e.icono}</span><b>${esc(e.nombre)}</b>
+      `<button class="card ${S.esp && S.esp.id === e.id ? "sel" : ""}" data-id="${e.id}">${icon(e)}<b>${esc(e.nombre)}</b>
       <small>${e.tipo === "estudio" ? "Estudio" : "Consulta"} · ${e.modalidad === "llegada" ? "Orden de llegada" : "Con turno"}</small>
       <span class="precio">${fmt(e.precio)}${e.porUnidad ? " cada " + e.unidad : ""}</span></button>`).join("") || `<p class="muted">No encontramos esa especialidad. Escribinos por WhatsApp y te ayudamos.</p>`;
     S.tipo = S.tipo || "todas";
@@ -46,7 +47,7 @@
     const e = S.esp, hoy = nowAR();
     const dias = [...Array(CONFIG.diasAdelante)].map((_, i) => { const d = addDays(hoy.ymd, i); return { ...d, n: Store.slots(e, d.ymd, d.dow).length }; });
     if (!S.fecha || !dias.find(d => d.ymd === S.fecha && d.n)) S.fecha = (dias.find(d => d.n) || {}).ymd || null;
-    wiz.innerHTML = head(2) + `<h3>${e.icono} ${esc(e.nombre)}</h3>
+    wiz.innerHTML = head(2) + `<h3>${icon(e)} ${esc(e.nombre)}</h3>
       ${e.porUnidad ? `<label>¿Cuántas ${e.unidad}s?</label><div class="stepper"><button type="button" data-q="-1" aria-label="Menos">−</button><output>${S.cant}</output><button type="button" data-q="1" aria-label="Más">+</button></div>` : ""}
       ${e.tipo === "estudio" ? `<div class="note info">Traé la orden médica del estudio (impresa o en el celular).</div>` : ""}
       <label>Elegí el día</label>
@@ -94,7 +95,7 @@
   function r4() {
     const e = S.esp, t = CONFIG.pago.transferencia;
     wiz.innerHTML = head(4) + `<h3>Confirmá y pagá</h3>
-      <div class="resumen"><div><span>${e.icono} ${esc(e.nombre)}${e.porUnidad ? " × " + S.cant : ""}</span><b>${fmt(total())}</b></div>
+      <div class="resumen"><div><span>${icon(e)} ${esc(e.nombre)}${e.porUnidad ? " × " + S.cant : ""}</span><b>${fmt(total())}</b></div>
       <div><span>Día</span><span>${fechaLarga(S.fecha)}</span></div><div><span>${e.modalidad === "llegada" ? "Desde las" : "Hora"}</span><span>${S.slot.hora} hs</span></div>
       <div><span>Paciente</span><span>${esc(S.datos.nombre)}</span></div><div class="tot"><span>Total</span><span>${fmt(total())}</span></div></div>
       <div class="pagos">
@@ -127,10 +128,10 @@
   }
 
   function r5() {
-    const t = S.turno, e = S.esp, pag = t.pagoEstado === "pagado" ? "✅ Pago acreditado" : t.pagoEstado === "por verificar" ? `⏳ Transferí ${fmt(t.monto)} al alias <b>${esc(CONFIG.pago.transferencia.alias)}</b> y mandanos el comprobante` : `💵 Pagás ${fmt(t.monto)} en el consultorio`;
+    const t = S.turno, e = S.esp, pag = t.pagoEstado === "pagado" ? "Pago acreditado" : t.pagoEstado === "por verificar" ? `Pendiente: transferí ${fmt(t.monto)} al alias <b>${esc(CONFIG.pago.transferencia.alias)}</b> y mandanos el comprobante` : `Pagás ${fmt(t.monto)} en el consultorio`;
     const msg = `¡Hola! Saqué un turno por la web.\nCódigo: ${t.codigo}\n${e.nombre}${e.porUnidad ? " x" + t.cant : ""}\n${fechaLarga(t.fecha)} - ${t.hora} hs\nPaciente: ${t.paciente} (DNI ${t.dni})` + (t.pagoEstado === "por verificar" ? `\nAdjunto el comprobante de transferencia por ${fmt(t.monto)}.` : "");
-    wiz.innerHTML = `<div class="ok"><div class="big">✅</div><h3>¡Turno confirmado!</h3><div class="codigo">${t.codigo}</div>
-      <div class="resumen" style="text-align:left"><div><span>${e.icono} ${esc(e.nombre)}${e.porUnidad ? " × " + t.cant : ""}</span></div><div><span>Día</span><b>${fechaLarga(t.fecha)}</b></div>
+    wiz.innerHTML = `<div class="ok"><div class="big">${svgIcon("check", 34)}</div><h3>¡Turno confirmado!</h3><div class="codigo">${t.codigo}</div>
+      <div class="resumen" style="text-align:left"><div><span>${icon(e)} ${esc(e.nombre)}${e.porUnidad ? " × " + t.cant : ""}</span></div><div><span>Día</span><b>${fechaLarga(t.fecha)}</b></div>
       <div><span>${t.orden ? "Presentate desde las" : "Hora"}</span><b>${t.hora} hs</b></div>${t.orden ? `<div><span>Tu orden de llegada</span><b>Nº ${t.orden}</b></div>` : ""}
       <div><span>Dirección</span><span>${esc(C.direccion)}</span></div><div><span>Pago</span><span>${pag}</span></div></div>
       ${e.tipo === "estudio" ? `<div class="note info">Acordate de traer la orden médica.</div>` : ""}
@@ -149,5 +150,7 @@
     const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([ics], { type: "text/calendar" })); a.download = "turno-" + t.codigo + ".ics"; a.click();
   }
 
+  const dir = $("#espdir"); if (dir) dir.innerHTML = Store.especialidades().filter(e => e.activo).map(e => `<li>${icon(e)}<span>${esc(e.nombre)}</span></li>`).join("");
+  const nEsp = $("#nEsp"); if (nEsp) nEsp.textContent = Store.especialidades().filter(e => e.activo).length;
   render();
 })();

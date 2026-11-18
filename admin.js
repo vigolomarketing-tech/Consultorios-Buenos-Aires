@@ -45,7 +45,7 @@
 
   function precios() {
     $("#v").innerHTML = `<p class="muted">Cambiá los precios, los cupos o pausá una prestación. Se actualiza al instante en la web.</p><div class="scroll"><table class="tbl"><thead><tr><th>Prestación</th><th>Modalidad</th><th>Precio${""}</th><th>Cupo por horario</th><th>Visible en la web</th></tr></thead><tbody>
-      ${Store.especialidades().map(e => `<tr><td>${e.icono} <b>${esc(e.nombre)}</b>${e.porUnidad ? `<br><small>precio por ${e.unidad}</small>` : ""}</td><td>${e.modalidad === "llegada" ? "Orden de llegada" : "Turno cada " + e.duracion + " min"}</td>
+      ${Store.especialidades().map(e => `<tr><td>${icon(e)} <b>${esc(e.nombre)}</b>${e.porUnidad ? `<br><small>precio por ${e.unidad}</small>` : ""}</td><td>${e.modalidad === "llegada" ? "Orden de llegada" : "Turno cada " + e.duracion + " min"}</td>
       <td><input type="number" min="0" step="500" value="${e.precio}" data-id="${e.id}" data-k="precio"></td><td><input type="number" min="1" max="50" value="${e.cupo}" data-id="${e.id}" data-k="cupo" style="width:80px"></td>
       <td><input type="checkbox" ${e.activo ? "checked" : ""} data-id="${e.id}" data-k="activo" style="width:24px;height:24px"></td></tr>`).join("")}</tbody></table></div>
       <p style="margin-top:18px"><button class="mini" id="rst">Restablecer datos de demostración</button></p>`;
