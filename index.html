@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Turnos online en Longchamps | Consultorios Buenos Aires</title>
+<meta name="description" content="Sacá tu turno online en Consultorios Buenos Aires, Longchamps. Traumatología, clínica, pediatría, placas, ecografías y resonancias. Pagá desde el celular.">
+<meta property="og:title" content="Turnos online | Consultorios Buenos Aires">
+<meta property="og:description" content="Sacá tu turno y pagá tu consulta desde el celular. Longchamps.">
+<meta property="og:image" content="img/og.png">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#1f5fd1">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"MedicalClinic","name":"Consultorios Buenos Aires","telephone":"+5491167198335","medicalSpecialty":["Traumatology","PrimaryCare","Pediatric","Gynecologic","Cardiovascular","Dermatology","Radiography"],"address":{"@type":"PostalAddress","streetAddress":"Manuel Belgrano 1266","addressLocality":"Longchamps","addressRegion":"Buenos Aires","postalCode":"B1854BQZ","addressCountry":"AR"},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"09:30","closes":"19:30"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"09:30","closes":"14:30"}]}
+</script>
+</head>
+<body>
+<div class="demo-bar">Demo de sistema de turnos y pagos · Vigolo Web Studio · Los turnos y pagos son de prueba</div>
+
+<header class="top">
+  <a class="brand" href="#inicio" aria-label="Consultorios Buenos Aires, inicio">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="4" fill="#6fb8e6"/><rect x="9" y="9" width="16" height="16" rx="4" fill="#2a3de0" opacity=".9"/><rect x="16" y="16" width="16" height="16" rx="4" fill="#e84b8a" opacity=".9"/></svg>
+    <span>Consultorios<br><b>Buenos Aires</b></span>
+  </a>
+  <span id="abierto" class="pill"></span>
+  <a class="btn btn-sm" href="#reservar">Sacar turno</a>
+</header>
+
+<main id="inicio">
+  <section class="hero">
+    <h1>Sacá tu turno y pagá tu consulta <em>desde el celular</em></h1>
+    <p>Todas las especialidades, ecografías, radiografías y resonancias en Longchamps. Elegí el día, reservá tu lugar y listo: sin llamadas ni esperas por WhatsApp.</p>
+    <div class="cta">
+      <a class="btn" href="#reservar">Reservar turno</a>
+      <a class="btn btn-ghost" id="waHero" href="#" target="_blank" rel="noopener">Consultar por WhatsApp</a>
+    </div>
+    <ul class="chips">
+      <li>✔ Confirmación al instante</li><li>✔ Pagá online o en el consultorio</li><li>✔ Recordatorio en tu calendario</li>
+    </ul>
+  </section>
+
+  <section id="reservar" class="wrap">
+    <h2>Reservá tu turno</h2>
+    <div id="wiz" class="wiz" aria-live="polite"></div>
+  </section>
+
+  <section class="wrap">
+    <h2>Cómo funciona</h2>
+    <ol class="pasos">
+      <li><b>1</b><span>Elegís la consulta o el estudio</span></li>
+      <li><b>2</b><span>Elegís día y horario disponible</span></li>
+      <li><b>3</b><span>Pagás online o en el consultorio y recibís tu confirmación</span></li>
+    </ol>
+  </section>
+
+  <section id="ubicacion" class="wrap">
+    <h2>Dónde estamos</h2>
+    <div class="ubic">
+      <div>
+        <p><b id="dir"></b></p>
+        <ul id="horarios" class="horarios"></ul>
+        <p class="muted" id="dirNota">Todas las especialidades · Ecografías · Radiografías · Resonancias</p>
+        <div class="cta"><a class="btn" id="comoLlegar" target="_blank" rel="noopener" href="#">Cómo llegar</a><a class="btn btn-ghost" id="llamar" href="#">Llamar</a></div>
+      </div>
+      <iframe id="mapa" title="Mapa de Consultorios Buenos Aires" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <h2>Preguntas frecuentes</h2>
+    <details><summary>¿Cómo se paga?</summary><p>Podés pagar online con Mercado Pago, por transferencia o en el consultorio al momento de la consulta (efectivo o mitad efectivo y mitad transferencia).</p></details>
+    <details><summary>¿Qué es "orden de llegada"?</summary><p>Algunas consultas, como Traumatología, se atienden por orden de llegada dentro de una franja. Reservás tu lugar, te asignamos un número y te presentás desde el horario indicado.</p></details>
+    <details><summary>¿Necesito orden médica para las placas?</summary><p>Sí, traé la orden del estudio impresa o en el celular. Si tenés dudas, escribinos por WhatsApp.</p></details>
+    <details><summary>¿Puedo cancelar o cambiar mi turno?</summary><p id="faqCancel"></p></details>
+  </section>
+</main>
+
+<footer>
+  <p><b>Consultorios Buenos Aires</b> · <span id="footDir"></span></p>
+  <p>© <span id="anio"></span> · Web hecha por <a href="https://vigolowebstudio.com" target="_blank" rel="noopener">Vigolo Web Studio</a> · <a href="https://instagram.com/consultoriosbuenosaires" target="_blank" rel="noopener">Instagram</a> · <a href="admin.html">Acceso administración</a></p>
+</footer>
+
+<a id="waFloat" class="wa" href="#" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M4 3h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H9l-5 4v-4H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm3 5v2h10V8zm0 4v2h7v-2z"/></svg>
+</a>
+
+<dialog id="mp"></dialog>
+<script src="data.js"></script>
+<script src="store.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
